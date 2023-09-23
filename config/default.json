@@ -1,0 +1,11 @@
+{
+    "maximumSizeDataTransfer": "600mb",
+    "sourceEmail": "atique1224@gmail.com",
+    "serverMongodb": {
+        "url": "mongodb+srv://",
+        "port":"27017",
+        "databaseName":"Jkteches"
+    },
+    "userLimit": 5000,
+    "authenticationCodeExpireIn": 900
+}

@@ -12,8 +12,6 @@ const authentication = require('../authentication');
 // Middleware
 const middleware = require('../middleware/validation');
 
-// Validate Token
-const validateToken = require('../middleware/headerValidation');
 
 // Controller
 const authController = require('../controllers/socialAuthController');

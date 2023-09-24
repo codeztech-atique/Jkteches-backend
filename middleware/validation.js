@@ -15,6 +15,9 @@ exports.validateSocialRegistrationAPI = (req, res, next) => {
       console.log(chalk.red('deviceType is missing'));
       error += "deviceType, "
     } 
+    if(req.body.profileurl === undefined || req.body.profileurl === '') {
+      req.body.profileurl = "https://static.jkteches.com/user.png";
+    }
     if (error !== '') {
       res.status(400).send({
         status: 400,
@@ -35,6 +38,9 @@ exports.validateSocialRegistrationAPI = (req, res, next) => {
     if (req.body.name === undefined || req.body.name === '') {
       console.log(chalk.red('name is missing'));
       error += "name, "
+    }
+    if(req.body.profileurl === undefined || req.body.profileurl === '') {
+      req.body.profileurl = "https://static.jkteches.com/user.png";
     }
     if (req.body.deviceType === undefined || req.body.deviceType === '') {
       console.log(chalk.red('deviceType is missing'));

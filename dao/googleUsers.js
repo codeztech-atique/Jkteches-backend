@@ -16,6 +16,14 @@ exports.daoUserAttributes = (body) => {
     customAttributeList.push({ Name: 'custom:role', Value: body.role });
   }
 
+  if (!body.about) {
+    customAttributeList.push({ Name: 'custom:about', Value: '' });
+  }
+
+  if (!body.dob) {
+    customAttributeList.push({ Name: 'custom:dob', Value: '' });
+  }
+
   if (body.email) {
     customAttributeList.push({ Name: 'email', Value: body.email });
   }

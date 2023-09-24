@@ -65,17 +65,6 @@ exports.verifyEmail = async function (req, res) {
   }
 }
 
-exports.logout = async function(req, res) {
-  try {
-    res.status(200).send({
-      message: "success"
-    })
-  } catch(err) {
-    res.status(400).json({
-      "error": err
-    });
-  }
-}
 
 exports.changePassword = async function (req, res) {
   const {

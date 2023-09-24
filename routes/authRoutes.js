@@ -28,9 +28,6 @@ app.post('/login', [middleware.validateLoginUserAPI], (req, res) => {
    authController.login(req, res);
 });
 
-app.post('/logout', [middleware.validateLogoutUserAPI], (req, res) => {
-   authController.logout(req, res);
-});
 
 app.post('/verifytoken', [middleware.validateVerifyTokenAPI], (req, res) => {
    authController.verifyToken(req, res);

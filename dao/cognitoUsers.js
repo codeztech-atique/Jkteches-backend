@@ -20,15 +20,15 @@ exports.daoUserAttributes = (body) => {
     customAttributeList.push({ Name: 'email', Value: body.email });
   }
 
-  if (!body.about) {
-    customAttributeList.push({ Name: 'custom:about', Value: '' });
+  if (body.about) {
+    customAttributeList.push({ Name: 'custom:about', Value: body.about });
   }
 
-  if (!body.dob) {
-    customAttributeList.push({ Name: 'custom:dob', Value: '' });
+  if (body.dob) {
+    customAttributeList.push({ Name: 'custom:dob', Value: body.dob });
   }
 
-  if (!body.source) {
+  if (body.source) {
     customAttributeList.push({ Name: 'custom:source', Value: 'custom' });
   }
 

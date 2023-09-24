@@ -78,12 +78,12 @@ exports.updateCognitoUserName = async(body) => {
             Username: body.email,
             UserAttributes: [
               {
-                Name: "custom:name",
-                Value: body.name,
+                Name: "custom:about",
+                Value: body.about,
               },
               {
-                Name: "custom:profileurl",
-                Value: body.profileUrl,
+                Name: "custom:dob",
+                Value: body.dob,
               },
             ],
         };
@@ -110,8 +110,8 @@ exports.updateUserProfile = async (body) => {
         }
 
         // Update the fields in the existing user document
-        existingUser.custom.name = body.name;
-        existingUser.custom.profileurl = body.profileUrl;
+        existingUser.custom.about = body.about;
+        existingUser.custom.dob = body.dob;
 
         // Save the updated user document
         const updatedUser = await existingUser.save();

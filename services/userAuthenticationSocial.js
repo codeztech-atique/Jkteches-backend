@@ -88,6 +88,8 @@ const saveUserToDB = (body) => {
             name: body.name,
             updatedBy: body.updatedBy,
             profileurl: body.profileUrl,
+            about: body.about,
+            dob: body.dob,
             deviceType: body.deviceType,
             role: 'customer'
         },
@@ -124,6 +126,8 @@ const saveUserToDB_FB = (body) => {
             name: body.name,
             updatedBy: body.updatedBy,
             profileurl: body.profileUrl,
+            about: body.about,
+            dob: body.dob,
             deviceType: body.deviceType,
             role: 'customer'
         },
@@ -265,46 +269,6 @@ exports.registerWithFacebook = (body) => {
     })
 }
 
-// Registered With Apple
-exports.registerWithApple = (body) => {
-    return new Promise(async(resolve, reject) => {
-         try {
-             body.source = 'apple';
-             const customAttributeList = userAttributes.daoUserAttributes(body);
-             const signUpCommand = new AdminCreateUserCommand({
-                 UserPoolId: process.env.USER_POOL_ID,
-                 ClientId: process.env.APP_CLIENT_ID,
-                 Username: body.email,
-                 TemporaryPassword: 'Password123!@#', // Set a temporary password
-                 UserAttributes: customAttributeList,
-                 ValidationData: [
-                     { Name: 'email', Value: body.email },
-                 ],
-                 MessageAction: 'SUPPRESS',
-             });
- 
-             
-             const signUpComplete = await cognitoISP.send(signUpCommand);
-             const verifyCustomerEmail = await verifyEmail(body);
-             const userConfirmed = await confirmUser(body);
-             const userAddedToGroup = await assignUserToAGroup(body);
-             const saveUserToDatabase = await saveUserToDB_APPLE(body);
-             const userUserLogin = await cognito.logIn(body.email, 'Password123!@#');
-             resolve(userUserLogin);  
-
-            
-             // Send email to the user if he is a customer
-             if(body.role == "customer") {
-                await sendEmailToUser.sendEmail(body.email, null, sourceEmail);
-             }
-            
-   
-         } catch (err) {
-             reject(err);
-         }
-    })
-}
-
 exports.signup = (body, provider) => {
     return new Promise(async(resolve, reject) => {
         try {
@@ -326,12 +290,6 @@ exports.signup = (body, provider) => {
                 
                 const registeredWithFacebook = await this.registerWithFacebook(body);
                 resolve(registeredWithFacebook)
-            } else if(provider === 'apple') {
-                body.createdBy = body.email;
-                body.updatedBy = body.email;
-                body.email_verified = true;
-                const registeredWithApple = await this.registerWithApple(body);
-                resolve(registeredWithApple)
             } else {
                 reject({
                     error: 'We are not supporting '+provider+" right now."

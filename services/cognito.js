@@ -57,8 +57,10 @@ const saveUserToDB = (body, signUpComplete) => {
           source: 'custom',
           createdBy: body.createdBy,
           name: body.name,
+          about: body.about,
+          dob: body.dob,
           updatedBy: body.updatedBy,
-          profileurl: body.profileUrl,
+          profileurl: body.profileurl,
           deviceType: body.deviceType,
           role: body.role
       },

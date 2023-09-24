@@ -197,6 +197,8 @@ exports.validateRegisterUserAPI = (req, res, next) => {
   // console.log();
   // console.log(chalk.bgYellowBright("---------------- Validated API Data ----------------"));
   var error = '';
+  req.body.createdBy = req.body.email;
+  req.body.updatedBy = req.body.email;
   if (req.body.name === undefined || req.body.name === '') {
     let userName = req.body.email.split("@");
     req.body.name = userName[0];
@@ -219,8 +221,23 @@ exports.validateRegisterUserAPI = (req, res, next) => {
     error += "role, "
   }
 
+  if (req.body.about === undefined || req.body.about === '') {
+    console.log(chalk.red('aboutme is missing'));
+
+    req.body.about = "I am "+req.body.role;
+  }
+
+  if (req.body.dob === undefined || req.body.dob === '') {
+    console.log(chalk.red('date of birth is missing'));
+    req.body.dob = "12/01/1985";
+  }
+
   if(req.body.profileurl === undefined || req.body.profileurl === '') {
     req.body.profileurl = "https://static.jkteches.com/user.png";
+  }
+
+  if(req.body.source === undefined || req.body.source === '') {
+    req.body.source = "custom";
   }
 
   if (error !== '') {
@@ -330,10 +347,6 @@ exports.validateUpdateProfile = (req, res, next) => {
   // console.log();
   // console.log(chalk.bgYellowBright("---------------- Validated API Data ----------------"));
   var error = '';
-  if (req.body.name === undefined || req.body.name === '') {
-    console.log(chalk.red('name is missing'));
-    error += "name, "
-  }
 
   if (req.body.email === undefined || req.body.email === '') {
     console.log(chalk.red('email is missing'));

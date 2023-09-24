@@ -8,6 +8,8 @@ const userSchema = new mongoose.Schema({
       source: String,
       createdBy: String,
       name: String,
+      about: String,
+      dob: String,
       updatedBy: String,
       profileurl: String,
       deviceType: String,

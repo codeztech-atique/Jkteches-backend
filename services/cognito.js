@@ -309,7 +309,6 @@ const forgotPassword = (username, body) => {
     const storeVerificationCode = await userAuthentication.saveUserAuthentication(username, verificationCode);
 
     // Get the customer role, from the database, based on the role, we need to send 2 diff email template. 
-    // For Customer only - APP ( Android / IOS )
     // For Admin - Web
     const getCustomerInfo = await userAuthentication.findUser(username);
     if(getCustomerInfo) {

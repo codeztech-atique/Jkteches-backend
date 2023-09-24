@@ -2,9 +2,8 @@ require('dotenv').config();
 const fs = require('fs');
 const { SESClient, SendEmailCommand } = require("@aws-sdk/client-ses");
 const customerRegistrationHtmlTemplate = fs.readFileSync('./emails/registration.html', 'utf-8');
-const forgotPasswordCustomerHTMLTemplate = fs.readFileSync('./emails/forgotpassword_customer.html', 'utf-8');
 const verifyEmailCustomerHTMLTemplate = fs.readFileSync('./emails/verifyemail_customer.html', 'utf-8');
-const forgotPasswordAdminHTMLTemplate = fs.readFileSync('./emails/forgotpassword_admin.html', 'utf-8');
+const forgotPasswordHTMLTemplate = fs.readFileSync('./emails/forgotpassword.html', 'utf-8');
 
 // AWS SDK v3 configurations
 const sesClient = new SESClient({
@@ -20,14 +19,15 @@ exports.sendEmail = (userName, verificationCode, sourceEmail, userInfo, isVerify
     if(verificationCode) {
       emailSubject = "Reset Your Password";
       if(userInfo.role === "admin") {
-        const forgetPasswordLink = "https://"+process.env.FORGET_PASSWORD_LINK+"/"+"auth/reset-password?username="+userName+"&code="+verificationCode;
-        emailBody = forgotPasswordAdminHTMLTemplate.replace("{{username}}", userInfo.name).replace("{{forgetpasswordLink}}", forgetPasswordLink);
+        const forgetPasswordLink = "https://"+process.env.FORGET_PASSWORD_LINK+"/change-password?username="+userName+"&code="+verificationCode;
+        emailBody = forgotPasswordHTMLTemplate.replace("{{username}}", userInfo.name).replace("{{forgetpasswordLink}}", forgetPasswordLink);
       } else if(userInfo.role === "customer") {
         if(isVerifyEmail) {
           emailSubject = "Verify Email";
           emailBody = verifyEmailCustomerHTMLTemplate.replace("{{username}}", userInfo.name).replace("{{otp}}", verificationCode);
         } else {
-          emailBody = forgotPasswordCustomerHTMLTemplate.replace("{{username}}", userInfo.name).replace("{{otp}}", verificationCode);
+          const forgetPasswordLink = "https://"+process.env.FORGET_PASSWORD_LINK+"/change-password?username="+userName+"&code="+verificationCode;
+          emailBody = forgotPasswordHTMLTemplate.replace("{{username}}", userInfo.name).replace("{{forgetpasswordLink}}", forgetPasswordLink);
         }
        
       } else {

@@ -10,7 +10,7 @@ provider:
  timeout: 300
  stage: production
  role: arn:aws:iam::485947658225:role/jkteches
- region: us-west-1 # AWS region
+ region: ap-south-1 # AWS region
 
 functions:
  api:

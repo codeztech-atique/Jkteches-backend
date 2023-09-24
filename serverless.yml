@@ -1,0 +1,20 @@
+service: jkteches-backend
+
+plugins:
+  - serverless-dotenv-plugin
+  
+provider:
+ name: aws
+ runtime: nodejs14.x # Node JS version
+ memorySize: 512
+ timeout: 300
+ stage: production
+ role: arn:aws:iam::485947658225:role/jkteches
+ region: us-west-1 # AWS region
+
+functions:
+ api:
+   handler: lambda.handler
+   events:
+     - http: ANY /{proxy+}
+     - http: ANY /

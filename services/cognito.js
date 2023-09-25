@@ -177,14 +177,15 @@ const signUp = (body) => {
         // Store the verification code to database for 15 minutes
         const storeVerificationCode = await userAuthentication.saveUserAuthentication(body.email, verificationCode);
 
-        // Send welcome email to the customer when they signup
-        await sendEmailToUser.sendEmail(body.email, null, sourceEmail);
         
         const getCustomerInfo = await userAuthentication.findUser(body.email);
         
         if(getCustomerInfo) {
           // Send email to the user with Verification Code
           await sendEmailToUser.sendEmail(body.email, verificationCode, sourceEmail, getCustomerInfo.custom, true);
+          // Send welcome email to the customer when they signup
+          await sendEmailToUser.sendEmail(body.email, null, sourceEmail);
+          
         }
       }
 

@@ -176,9 +176,16 @@ exports.forgotPassword = async function (req, res) {
         })
       }
     } else {
-      res.status(400).send({
-        message: 'You have registered with us using '+isUserCustomUser.custom.source+ ' account, Sorry, we are not able to reset the password at now.'
-      })
+      if(isUserCustomUser) {
+        res.status(400).send({
+          message: 'You have registered with us using '+isUserCustomUser.custom.source+ ' account, Sorry, we are not able to reset the password at now.'
+        })
+      } else {
+        res.status(400).send({
+          message: 'You are not registered with us, please register.'
+        })
+      }
+      
     }
   } catch (err) {
     console.log(err);
